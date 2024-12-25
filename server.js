@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const dotenv = require("dotenv");
+const cors = require("cors"); // Import cors middleware
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +21,13 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+
+// Enable CORS middleware
+app.use(cors({
+  origin: FRONTEND_URL,
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+}));
 
 // Default route to confirm the server is running
 app.get("/", (req, res) => {
